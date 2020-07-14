@@ -13,13 +13,13 @@ import {
 } from "./actions";
 
 const login = (email, password) => async (dispatch) => {
-  dispatch(userRegisterRequest());
+  dispatch(userLoginRequest());
   try {
     const user = await userService.login(email, password);
-    dispatch(userRegisterSuccess(user));
-    history.push("/");
+    dispatch(userLoginSuccess(user));
+    history.push("/Registration");
   } catch (error) {
-    dispatch(userRegisterFailure(error));
+    dispatch(userLoginFailure(error));
     dispatch(alertError(error));
   }
 };
@@ -30,14 +30,14 @@ const logout = () => {
 };
 
 const register = (user) => async (dispatch) => {
-  dispatch(userLoginRequest(user));
+  dispatch(userRegisterRequest(user));
   try {
     await userService.register(user);
-    dispatch(userLoginSuccess(user));
-    history.push("/login");
+    dispatch(userRegisterSuccess(user));
+    history.push("/Registration/login");
     dispatch(alertSuccess("Registration successful"));
   } catch (error) {
-    dispatch(userLoginFailure(error));
+    dispatch(userRegisterFailure(error));
     dispatch(alertError(error));
   }
 };

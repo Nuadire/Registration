@@ -21,11 +21,10 @@ const tailLayout = {
   },
 };
 
-const LoginPage = ({ login }) => {
+const LoginPage = ({ login, loggingIn }) => {
   const onFinish = ({ email, password }) => {
     login(email, password);
   };
-//   logout();
 
   return (
     <Form {...layout} name="basic" onFinish={onFinish} className="login-form">
@@ -56,10 +55,10 @@ const LoginPage = ({ login }) => {
       </Form.Item>
 
       <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={loggingIn}>
           Login
         </Button>
-        <Link className="login-form--signup" to="/signup">
+        <Link className="login-form--signup" to="/Registration/signup">
           Registration
         </Link>
       </Form.Item>
@@ -69,7 +68,10 @@ const LoginPage = ({ login }) => {
 
 LoginPage.propTypes = {
   login: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
+  loggingIn: PropTypes.bool,
+};
+LoginPage.defaultProps = {
+  loggingIn: false,
 };
 
 function mapState(state) {
@@ -79,7 +81,6 @@ function mapState(state) {
 
 const actionCreators = {
   login: userActions.login,
-  logout: userActions.logout,
 };
 
 const connectedLoginPage = connect(mapState, actionCreators)(LoginPage);
