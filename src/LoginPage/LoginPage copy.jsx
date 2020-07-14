@@ -4,7 +4,7 @@ import { Form, Input, Button } from "antd";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { userActions } from "../_actions";
-import "./RegistrationPage.css";
+import "./LoginPage.css";
 
 const layout = {
   labelCol: {
@@ -21,30 +21,13 @@ const tailLayout = {
   },
 };
 
-const RegisterPage = ({ register, registering, history }) => {
-  const onFinish = (user) => {
-    register({ user, history });
+const LoginPage = ({ login, loggingIn, history }) => {
+  const onFinish = ({ email, password }) => {
+    login(email, password, history);
   };
 
   return (
-    <Form
-      {...layout}
-      name="basic"
-      onFinish={onFinish}
-      className="registration-form"
-    >
-      <Form.Item
-        name="username"
-        label="Username"
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
+    <Form {...layout} name="basic" onFinish={onFinish} className="login-form">
       <Form.Item
         name="email"
         label="Email"
@@ -72,37 +55,35 @@ const RegisterPage = ({ register, registering, history }) => {
       </Form.Item>
 
       <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit"
-        loading={registering}
-        >
-          Register
+        <Button type="primary" htmlType="submit" loading={loggingIn}>
+          Login
         </Button>
-        <Link to="/login" className="registration-form--signup">
-          Cancel
+        <Link className="login-form--signup" to="/signup">
+          Registration
         </Link>
       </Form.Item>
     </Form>
   );
 };
 
-RegisterPage.propTypes = {
+LoginPage.propTypes = {
+  login: PropTypes.func.isRequired,
+  loggingIn: PropTypes.bool,
   // eslint-disable-next-line react/forbid-prop-types
-  history: PropTypes.object.isRequired,
-  register: PropTypes.func.isRequired,
-  registering: PropTypes.bool,
+  history: PropTypes.object.isRequired
 };
-RegisterPage.defaultProps = {
-  registering: false
+LoginPage.defaultProps = {
+  loggingIn: false,
 };
 
 function mapState(state) {
-  const { registering } = state.registration;
-  return { registering };
+  const { loggingIn } = state.authentication;
+  return { loggingIn };
 }
 
 const actionCreators = {
-  register: userActions.register,
+  login: userActions.login,
 };
 
-const connectedRegisterPage = connect(mapState, actionCreators)(RegisterPage);
-export { connectedRegisterPage as RegisterPage };
+const connectedLoginPage = connect(mapState, actionCreators)(LoginPage);
+export { connectedLoginPage as LoginPage };

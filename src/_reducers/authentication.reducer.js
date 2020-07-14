@@ -18,8 +18,8 @@ export const authentication = handleActions(
       loggingIn: true,
       user: payload,
     }),
-    [userLoginFailure]: () => ({}),
-    [userLogout]: () => ({}),
+    [userLoginFailure]: () => ({loggingIn: false}),
+    [userLogout]: () => ({loggingIn: false}),
   },
   initialState
 );

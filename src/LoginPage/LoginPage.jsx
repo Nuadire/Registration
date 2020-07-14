@@ -21,54 +21,72 @@ const tailLayout = {
   },
 };
 
-const LoginPage = ({ login, loggingIn }) => {
-  const onFinish = ({ email, password }) => {
-    login(email, password);
+class LoginPage extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    const { logout } = this.props;
+    logout();
+  }
+
+  onFinish = ({ email, password }) => {
+    const { login, history } = this.props;
+    login(email, password, history);
   };
 
-  return (
-    <Form {...layout} name="basic" onFinish={onFinish} className="login-form">
-      <Form.Item
-        name="email"
-        label="Email"
-        rules={[
-          {
-            type: "email",
-            required: true,
-          },
-        ]}
+  render() {
+    const { loggingIn } = this.props;
+    return (
+      <Form
+        {...layout}
+        name="basic"
+        onFinish={this.onFinish}
+        className="login-form"
       >
-        <Input />
-      </Form.Item>
+        <Form.Item
+          name="email"
+          label="Email"
+          rules={[
+            {
+              type: "email",
+              required: true,
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
 
-      <Form.Item
-        name="password"
-        label="Password"
-        rules={[
-          {
-            required: true,
-            message: "Please input your password!",
-          },
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
+        <Form.Item
+          name="password"
+          label="Password"
+          rules={[
+            {
+              required: true,
+              message: "Please input your password!",
+            },
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
 
-      <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit" loading={loggingIn}>
-          Login
-        </Button>
-        <Link className="login-form--signup" to="/signup">
-          Registration
-        </Link>
-      </Form.Item>
-    </Form>
-  );
-};
+        <Form.Item {...tailLayout}>
+          <Button type="primary" htmlType="submit" loading={loggingIn}>
+            Login
+          </Button>
+          <Link className="login-form--signup" to="/signup">
+            Registration
+          </Link>
+        </Form.Item>
+      </Form>
+    );
+  }
+}
 
 LoginPage.propTypes = {
   login: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
   loggingIn: PropTypes.bool,
+  // eslint-disable-next-line react/forbid-prop-types
+  history: PropTypes.object.isRequired,
 };
 LoginPage.defaultProps = {
   loggingIn: false,
@@ -81,6 +99,7 @@ function mapState(state) {
 
 const actionCreators = {
   login: userActions.login,
+  logout: userActions.logout,
 };
 
 const connectedLoginPage = connect(mapState, actionCreators)(LoginPage);

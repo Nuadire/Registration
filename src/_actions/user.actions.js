@@ -1,5 +1,6 @@
 import { userService } from "../_services";
-import { history } from "../_helpers";
+// import { browserHistory } from 'react-router-dom';
+// import { history } from "../_helpers";
 import {
   alertSuccess,
   alertError,
@@ -12,7 +13,7 @@ import {
   userLoginFailure,
 } from "./actions";
 
-const login = (email, password) => async (dispatch) => {
+const login = (email, password, history) => async (dispatch) => {
   dispatch(userLoginRequest());
   try {
     const user = await userService.login(email, password);
@@ -24,12 +25,12 @@ const login = (email, password) => async (dispatch) => {
   }
 };
 
-const logout = () => {
+const logout = () => (dispatch) => {
   userService.logout();
-  return userLogout();
+  dispatch(userLogout()); ;
 };
 
-const register = (user) => async (dispatch) => {
+const register = (user, history) => async (dispatch) => {
   dispatch(userRegisterRequest(user));
   try {
     await userService.register(user);
