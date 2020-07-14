@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter, Route, Switch} from "react-router-dom";
+import { HashRouter, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Alert } from "antd";
@@ -26,7 +26,7 @@ class App extends React.Component {
     return (
       <div className="app">
         {alert.message && <Alert type={alert.type} message={alert.message} />}
-        <HashRouter basename="/Registration" >
+        <HashRouter>
           <Switch>
             <PrivateRoute exact path="/" component={HomePage} />
             <Route path="/login" component={LoginPage} />
