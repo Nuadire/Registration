@@ -58,7 +58,7 @@ const LoginPage = ({ login, loggingIn }) => {
         <Button type="primary" htmlType="submit" loading={loggingIn}>
           Login
         </Button>
-        <Link className="login-form--signup" to="/Registration/signup">
+        <Link className="login-form--signup" to="/signup">
           Registration
         </Link>
       </Form.Item>

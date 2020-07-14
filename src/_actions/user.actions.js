@@ -17,7 +17,7 @@ const login = (email, password) => async (dispatch) => {
   try {
     const user = await userService.login(email, password);
     dispatch(userLoginSuccess(user));
-    history.push("/Registration");
+    history.push("/");
   } catch (error) {
     dispatch(userLoginFailure(error));
     dispatch(alertError(error));
@@ -34,7 +34,7 @@ const register = (user) => async (dispatch) => {
   try {
     await userService.register(user);
     dispatch(userRegisterSuccess(user));
-    history.push("/Registration/login");
+    history.push("/login");
     dispatch(alertSuccess("Registration successful"));
   } catch (error) {
     dispatch(userRegisterFailure(error));

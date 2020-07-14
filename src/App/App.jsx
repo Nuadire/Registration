@@ -29,10 +29,9 @@ class App extends React.Component {
             )}
             <Router history={history}>
               <Switch>
-                <PrivateRoute exact path="/Registration" component={HomePage} />
-                <Route exact path="/Registration/login" component={LoginPage} />
-                <Route exact path="/Registration/signup" component={RegisterPage} />
-                {/* <Redirect from="*" to="/Registration" /> */}
+                <PrivateRoute exact path="/" component={HomePage} />
+                <Route exact path="/login" component={LoginPage} />
+                <Route exact path="/signup" component={RegisterPage} />
               </Switch>
             </Router>
       </div>

@@ -8,7 +8,7 @@ const HomePage = ({ user, logout }) => (
   <>
     <h1>Hi {user.username}!</h1>
     <p>
-      <Link to="/Registration/login" onClick={logout}>
+      <Link to="/login" onClick={logout}>
         Logout
       </Link>
     </p>

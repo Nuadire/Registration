@@ -77,7 +77,7 @@ const RegisterPage = ({ register, registering }) => {
         >
           Register
         </Button>
-        <Link to="/Registration/login" className="registration-form--signup">
+        <Link to="/login" className="registration-form--signup">
           Cancel
         </Link>
       </Form.Item>
