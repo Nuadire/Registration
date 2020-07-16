@@ -4,6 +4,7 @@ import { Form, Input, Button } from "antd";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { userActions } from "../_actions";
+import { alertClear } from "../_actions/actions";
 import { ROUTS } from "../_constants";
 import "./LoginPage.css";
 
@@ -36,7 +37,7 @@ class LoginPage extends React.PureComponent {
   };
 
   render() {
-    const { loggingIn } = this.props;
+    const { loggingIn, clearAlert } = this.props;
     return (
       <Form
         {...layout}
@@ -74,7 +75,11 @@ class LoginPage extends React.PureComponent {
           <Button type="primary" htmlType="submit" loading={loggingIn}>
             Login
           </Button>
-          <Link className="login-form--signup" to={ROUTS.routSignUp}>
+          <Link
+            className="login-form--signup"
+            to={ROUTS.routSignUp}
+            onClick={clearAlert}
+          >
             Registration
           </Link>
         </Form.Item>
@@ -86,6 +91,7 @@ class LoginPage extends React.PureComponent {
 LoginPage.propTypes = {
   login: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
+  clearAlert: PropTypes.func.isRequired,
   loggingIn: PropTypes.bool,
   // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object.isRequired,
@@ -102,6 +108,7 @@ function mapState(state) {
 const actionCreators = {
   login: userActions.login,
   logout: userActions.logout,
+  clearAlert: alertClear,
 };
 
 const connectedLoginPage = connect(mapState, actionCreators)(LoginPage);
