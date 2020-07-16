@@ -4,6 +4,7 @@ import { Form, Input, Button } from "antd";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { userActions } from "../_actions";
+import { ROUTS } from "../_constants";
 import "./LoginPage.css";
 
 const layout = {
@@ -21,16 +22,17 @@ const tailLayout = {
   },
 };
 
+const redirectToPage = (history) => () => history.push(ROUTS.routHome);
+
 class LoginPage extends React.PureComponent {
-  constructor(props) {
-    super(props);
+  componentDidMount() {
     const { logout } = this.props;
     logout();
   }
 
   onFinish = ({ email, password }) => {
     const { login, history } = this.props;
-    login(email, password, history);
+    login(email, password, redirectToPage(history));
   };
 
   render() {
@@ -72,7 +74,7 @@ class LoginPage extends React.PureComponent {
           <Button type="primary" htmlType="submit" loading={loggingIn}>
             Login
           </Button>
-          <Link className="login-form--signup" to="/signup">
+          <Link className="login-form--signup" to={ROUTS.routSignUp}>
             Registration
           </Link>
         </Form.Item>

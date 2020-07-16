@@ -1,9 +1,8 @@
 import { userService } from "../_services";
-// import { browserHistory } from 'react-router-dom';
-// import { history } from "../_helpers";
 import {
   alertSuccess,
   alertError,
+  alertClear,
   userRegisterRequest,
   userRegisterSuccess,
   userRegisterFailure,
@@ -13,12 +12,13 @@ import {
   userLoginFailure,
 } from "./actions";
 
-const login = (email, password, history) => async (dispatch) => {
+const login = (email, password, redirectToPage) => async (dispatch) => {
   dispatch(userLoginRequest());
   try {
     const user = await userService.login(email, password);
     dispatch(userLoginSuccess(user));
-    history.push("/");
+    redirectToPage();
+    dispatch(alertClear());
   } catch (error) {
     dispatch(userLoginFailure(error));
     dispatch(alertError(error));
@@ -27,15 +27,16 @@ const login = (email, password, history) => async (dispatch) => {
 
 const logout = () => (dispatch) => {
   userService.logout();
-  dispatch(userLogout()); ;
+  dispatch(userLogout());
+  dispatch(alertClear());
 };
 
-const register = (user, history) => async (dispatch) => {
+const register = (user, redirectToPage) => async (dispatch) => {
   dispatch(userRegisterRequest(user));
   try {
     await userService.register(user);
-    dispatch(userRegisterSuccess(user));
-    history.push("/login");
+    dispatch(userRegisterSuccess());
+    redirectToPage();
     dispatch(alertSuccess("Registration successful"));
   } catch (error) {
     dispatch(userRegisterFailure(error));

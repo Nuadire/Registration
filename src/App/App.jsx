@@ -3,24 +3,14 @@ import { HashRouter, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Alert } from "antd";
-import { history } from "../_helpers";
-import { alertClear } from "../_actions/actions";
 import { PrivateRoute } from "../_components";
 import { HomePage } from "../HomePage";
 import { LoginPage } from "../LoginPage";
 import { RegisterPage } from "../RegisterPage";
+import { ROUTS } from "../_constants";
 import "./app.css";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    history.listen(() => {
-      const { clearAlerts } = this.props;
-      clearAlerts();
-    });
-  }
-
+class App extends React.PureComponent {
   render() {
     const { alert } = this.props;
     return (
@@ -28,9 +18,9 @@ class App extends React.Component {
         {alert.message && <Alert type={alert.type} message={alert.message} />}
         <HashRouter>
           <Switch>
-            <PrivateRoute exact path="/" component={HomePage} />
-            <Route path="/login" component={LoginPage} />
-            <Route path="/signup" component={RegisterPage} />
+            <PrivateRoute exact path={ROUTS.routHome} component={HomePage} />
+            <Route path={ROUTS.routLogin} component={LoginPage} />
+            <Route path={ROUTS.routSignUp} component={RegisterPage} />
           </Switch>
         </HashRouter>
       </div>
@@ -39,7 +29,6 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  clearAlerts: PropTypes.func.isRequired,
   alert: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
@@ -48,9 +37,5 @@ function mapState(state) {
   return { alert };
 }
 
-const actionCreators = {
-  clearAlerts: alertClear,
-};
-
-const connectedApp = connect(mapState, actionCreators)(App);
+const connectedApp = connect(mapState)(App);
 export { connectedApp as App };

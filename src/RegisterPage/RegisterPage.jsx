@@ -4,6 +4,7 @@ import { Form, Input, Button } from "antd";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { userActions } from "../_actions";
+import { ROUTS } from "../_constants";
 import "./RegistrationPage.css";
 
 const layout = {
@@ -21,9 +22,11 @@ const tailLayout = {
   },
 };
 
+const redirectToPage = (history) => () => history.push(ROUTS.routLogin);
+
 const RegisterPage = ({ register, registering, history }) => {
   const onFinish = (user) => {
-    register({ user, history });
+    register(user, redirectToPage(history));
   };
 
   return (
